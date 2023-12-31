@@ -28,7 +28,7 @@ weather_data = json.dumps(response.json())
 
 # Send weather data to Kafka topic  
 
-producer.send('topic1', value=weather_data.encode('utf-8'))  
+producer.send('raw-weather', value=weather_data.encode('utf-8'))  
 
 # Close the producer  
 

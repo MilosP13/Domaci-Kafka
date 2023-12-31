@@ -22,8 +22,11 @@ const io = new Server(server, {
   },
 });
 
+
 // Array za čuvanje konektovanih klijenata
 const clients = new Set();
+
+// ***** ovo sve iznad je kao api koji ti otvaras da react dodje i uzme podatke, a na dole je isto to samo za consumera *****
 
 // Endpoint za primanje podataka od Kafka consumera
 app.post('/api/receive-data', (req, res) => {

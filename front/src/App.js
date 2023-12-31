@@ -14,6 +14,8 @@ const App = () => {
 
     socket.on('message', (message) => {
       const newData = JSON.parse(message);
+      
+      //proveri
       setData((prevData) => [...prevData, newData]);
     });
 
@@ -22,25 +24,47 @@ const App = () => {
     };
   }, []);
 
+  
+
   useEffect(() => {
     // Formatiranje podataka za grafikon samo ako postoje podaci
     if (data.length > 0) {
+      
       const chartLabels = data.map((entry) => {
-        const date = new Date(entry.dt * 1000);
-        return date.toLocaleDateString('en-GB'); // Formatiraj datum u "dd/MM/yy"
+        // const date = new Date(entry.dt * 1000);
+        // return date.toLocaleDateString('en-GB'); // Formatiraj datum u "dd/MM/yy"
+
+        const timestamp = entry.dt;
+        const dateObj = new Date(timestamp * 1000);
+
+        // const hours = dateObj.toLocaleDateString('en-GB',{hour12: false, hour: '2-digit',minute: '2-digit', second: '2-digit'});
+
+        const hours = dateObj.getHours().toString().padStart(2,'0');
+        const minutes = dateObj.getMinutes().toString().padStart(2,'0');
+        const seconds = dateObj.getSeconds().toString().padStart(2,'0');
+
+        const formattedTime = `${hours}:${minutes}:${seconds}`;
+
+        
+
+        return formattedTime;
+
       });
 
-      const chartTemperatureData = data.map((entry) => entry.main.temp+ Math.random()*2);
+      
+      const chartTemperatureData = data.map((entry) => entry.temperature_celsius);
+
+      console.log(data);
 
       setChartData({
         labels: chartLabels,
         datasets: [
           {
-            label: 'Temperatura',
+            label: 'Temperature in Celsius',
             data: chartTemperatureData,
             fill: false,
-            borderColor: 'rgba(75,192,192,1)',
-            tension: 0.1,
+            borderColor: 'rgba(0,146,255,1)',
+            tension: 0.5,
             elements: {
               point: {
                 radius: 0,
