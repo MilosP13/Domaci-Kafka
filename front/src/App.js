@@ -31,23 +31,23 @@ const App = () => {
     if (data.length > 0) {
       
       const chartLabels = data.map((entry) => {
-        // const date = new Date(entry.dt * 1000);
-        // return date.toLocaleDateString('en-GB'); // Formatiraj datum u "dd/MM/yy"
+        const date = new Date(entry.dt * 1000);
+        return date.toLocaleDateString('en-GB'); // Formatiraj datum u "dd/MM/yy"
 
-        const timestamp = entry.dt;
-        const dateObj = new Date(timestamp * 1000);
+        // const timestamp = entry.dt;
+        // const dateObj = new Date();
 
-        // const hours = dateObj.toLocaleDateString('en-GB',{hour12: false, hour: '2-digit',minute: '2-digit', second: '2-digit'});
+        // // const hours = dateObj.toLocaleDateString('en-GB',{hour12: false, hour: '2-digit',minute: '2-digit', second: '2-digit'});
 
-        const hours = dateObj.getHours().toString().padStart(2,'0');
-        const minutes = dateObj.getMinutes().toString().padStart(2,'0');
-        const seconds = dateObj.getSeconds().toString().padStart(2,'0');
+        // const hours = dateObj.getHours().toString().padStart(2,'0');
+        // const minutes = dateObj.getMinutes().toString().padStart(2,'0');
+        // const seconds = dateObj.getSeconds().toString().padStart(2,'0');
 
-        const formattedTime = `${hours}:${minutes}:${seconds}`;
+        // const formattedTime = `${hours}:${minutes}:${seconds}`;
 
         
 
-        return formattedTime;
+        // return formattedTime;
 
       });
 

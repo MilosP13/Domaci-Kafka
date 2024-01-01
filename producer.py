@@ -1,12 +1,11 @@
 import json  
-
+import time
 import requests  
-
 from kafka import KafkaProducer  
 
 # Initialize Kafka producer  
 
-producer = KafkaProducer(bootstrap_servers='localhost:9092', acks='all')  
+producer = KafkaProducer(bootstrap_servers='localhost:9092', value_serializer=lambda v: json.dumps(v).encode('utf-8'));  
 
 # Weather API configuration  
 
@@ -22,14 +21,30 @@ weather_api_url = f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lo
 
 # Fetch weather data from the Weather API  
 
-response = requests.get(weather_api_url)  
 
-weather_data = json.dumps(response.json())  
 
-# Send weather data to Kafka topic  
+def fetch():
+    try:
+        response = requests.get(weather_api_url)
+        
+        if response.status_code == 200:
+            weather_data = response.json()
+            return weather_data
+        else:
+            print(f"Could fetch data from API: {response.status_code}")
+            return None
+    except Exception as e:
+        print(f"Exception occured:{str(e)}")
+        return None
 
-producer.send('raw-weather', value=weather_data.encode('utf-8'))  
+def send_data():
+    while True:
+        weather_data = fetch()
+        if weather_data:
+            producer.send('raw-weather',value=weather_data)
+            print("Sent data to Kafka:", weather_data)
 
-# Close the producer  
+        time.sleep(10)
 
-producer.close() 
+if __name__ == "__main__":
+    send_data()
