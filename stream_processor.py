@@ -18,12 +18,13 @@ for message in consumer:
     #uzmi json fajl
     json_data = message.value
     
-
-    temperature_kelvin = float(json_data['main']['temp'])
+    # ove procesiras
+    temperature_kelvin = float(json_data['main']['temp']) # 280
     temperature_celsius = temperature_kelvin - 273.15
     print(temperature_celsius)
 
     processed_data = {
+        
         'city': json_data.get('name','Unknown City'),
         'temperature_celsius': round(temperature_celsius,2),
         'dt': json_data.get('dt','error no date')
@@ -33,5 +34,7 @@ for message in consumer:
     producer.send(output_topic, value=processed_data)
     producer.flush()
 
+
+#nikad
 consumer.close()
 producer.close()

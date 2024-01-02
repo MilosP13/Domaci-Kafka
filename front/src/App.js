@@ -53,7 +53,7 @@ const App = () => {
 
       
       const chartTemperatureData = data.map((entry) => entry.temperature_celsius);
-
+      
       console.log(data);
 
       setChartData({
